@@ -50,7 +50,7 @@ class MyWindow(QtWidgets.QWidget):
         self.Name.adjustSize()
 
         self.logo = QtWidgets.QLabel(self)
-        self.logo.setPixmap(QtGui.QPixmap('../logo.png'))
+        self.logo.setPixmap(QtGui.QPixmap('./logo.png'))
         self.logo.move(720, 50)
 
         self.LoadRawButton = QtWidgets.QPushButton(self)
@@ -129,7 +129,7 @@ class MyWindow(QtWidgets.QWidget):
         self.ShowMap.move(350, 50)
         self.ShowMap.setObjectName("ShowMap")
         self.ShowMap.setScaledContents(True)
-        self.ShowMap.setPixmap(QtGui.QPixmap('../image.png'))
+        self.ShowMap.setPixmap(QtGui.QPixmap('./image.png'))
 
         self.EDSliceLabel = QtWidgets.QLabel(self)
         self.EDSliceLabel.setText("Slice: ")
@@ -156,7 +156,7 @@ class MyWindow(QtWidgets.QWidget):
         self.EDMap.move(350, 350)
         self.EDMap.setObjectName("EDShowMap")
         self.EDMap.setScaledContents(True)
-        self.EDMap.setPixmap(QtGui.QPixmap('../ED.png'))
+        self.EDMap.setPixmap(QtGui.QPixmap('./ED.png'))
 
         self.ESSliceLabel = QtWidgets.QLabel(self)
         self.ESSliceLabel.setText("Slice: ")
@@ -183,7 +183,7 @@ class MyWindow(QtWidgets.QWidget):
         self.ESMap.move(700, 350)
         self.ESMap.setObjectName("ESShowMap")
         self.ESMap.setScaledContents(True)
-        self.ESMap.setPixmap(QtGui.QPixmap('../ES.png'))
+        self.ESMap.setPixmap(QtGui.QPixmap('./ES.png'))
 
         self.SegButton = QtWidgets.QPushButton(self)
         self.SegButton.setObjectName("Segment")
@@ -265,11 +265,11 @@ class MyWindow(QtWidgets.QWidget):
         cfg_path = filepath + "/Info.cfg"
         f = open(cfg_path, 'r')
         lines = f.readlines()
-        for lines in lines:
-            if "ED" in lines:
-                self.EDIndex = int(lines.replace('ED: ', '')) - 1
-            if "ES" in lines:
-                self.ESIndex = int(lines.replace('ES: ', '')) - 1
+        for line in lines:
+            if "ED" in line:
+                self.EDIndex = int(line.replace('ED: ', '')) - 1
+            if "ES" in line:
+                self.ESIndex = int(line.replace('ES: ', '')) - 1
         self.ResultDisplay.setText("Load Successfully!")
         self.ResultDisplay.adjustSize()
         print("Load Successfully!")
