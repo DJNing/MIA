@@ -31,7 +31,7 @@ esDiceDetail = [0] * studyNum
 # # ===================================================================
 # # single study run
 # # ===================================================================
-file_path = dataset_path + 'patient004'
+file_path = dataset_path + 'patient001'
 f_list = os.listdir(file_path)
 # read config
 esSlice, edSlice = getEDES(f_list, file_path)
@@ -53,7 +53,7 @@ esRaw = nib.load(esFileName)
 esGT = nib.load(esFileGTName)
                 
 segLV3DEval(edRaw, edGT, verbose=True)
-segLV3DEval(esRaw, esGT, verbose=True)
+# segLV3DEval(esRaw, esGT, verbose=True)
 
 
 

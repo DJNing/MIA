@@ -51,7 +51,7 @@ class MyWindow(QtWidgets.QWidget):
         self.Name.adjustSize()
 
         self.logo = QtWidgets.QLabel(self)
-        self.logo.setPixmap(QtGui.QPixmap('../ResourceImage/logo.png'))
+        self.logo.setPixmap(QtGui.QPixmap('./logo.png'))
         self.logo.move(720, 110)
 
         self.LoadRawButton = QtWidgets.QPushButton(self)
@@ -131,7 +131,7 @@ class MyWindow(QtWidgets.QWidget):
         self.ShowMap.move(350, 110)
         self.ShowMap.setObjectName("ShowMap")
         self.ShowMap.setScaledContents(True)
-        self.ShowMap.setPixmap(QtGui.QPixmap('../ResourceImage/image.png'))
+        self.ShowMap.setPixmap(QtGui.QPixmap('./image.png'))
 
         self.EDSliceLabel = QtWidgets.QLabel(self)
         self.EDSliceLabel.setText("Slice: ")
@@ -158,7 +158,7 @@ class MyWindow(QtWidgets.QWidget):
         self.EDMap.move(350, 430)
         self.EDMap.setObjectName("EDShowMap")
         self.EDMap.setScaledContents(True)
-        self.EDMap.setPixmap(QtGui.QPixmap('../ResourceImage/ED.png'))
+        self.EDMap.setPixmap(QtGui.QPixmap('./ED.png'))
 
         self.EDFrameIndex_Truth = QtWidgets.QLabel(self)
         self.EDFrameIndex_Truth.move(620, 400)
@@ -190,7 +190,7 @@ class MyWindow(QtWidgets.QWidget):
         self.ESMap.move(700, 430)
         self.ESMap.setObjectName("ESShowMap")
         self.ESMap.setScaledContents(True)
-        self.ESMap.setPixmap(QtGui.QPixmap('../ResourceImage/ES.png'))
+        self.ESMap.setPixmap(QtGui.QPixmap('./ES.png'))
 
         self.ESFrameIndex_Truth = QtWidgets.QLabel(self)
         self.ESFrameIndex_Truth.move(960, 400)
@@ -288,11 +288,11 @@ class MyWindow(QtWidgets.QWidget):
         cfg_path = filepath + "/Info.cfg"
         f = open(cfg_path, 'r')
         lines = f.readlines()
-        for lines in lines:
-            if "ED" in lines:
-                self.EDIndex = int(lines.replace('ED: ', '')) - 1
-            if "ES" in lines:
-                self.ESIndex = int(lines.replace('ES: ', '')) - 1
+        for line in lines:
+            if "ED" in line:
+                self.EDIndex = int(line.replace('ED: ', '')) - 1
+            if "ES" in line:
+                self.ESIndex = int(line.replace('ES: ', '')) - 1
         self.ResultDisplay.setText("Load Successfully!" + "  ED: Frame " + str(self.EDIndex + 1) + "  ES: Frame " + str(self.ESIndex + 1))
         self.ResultDisplay.adjustSize()
         self.EDFrameIndex_Truth.setText(str(self.EDIndex + 1))
