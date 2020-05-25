@@ -77,7 +77,7 @@ class MyWindow(QtWidgets.QWidget):
         self.ComputeVButton.setObjectName("ComputeV")
         self.ComputeVButton.setText("Compute Volume")
         self.ComputeVButton.clicked.connect(self.ComputeV)
-        self.ComputeVButton.setGeometry(70, 360, 200, 50)
+        self.ComputeVButton.setGeometry(70, 440, 200, 50)
 
         # self.LoadGTButton = QtWidgets.QPushButton(self)
         # self.LoadGTButton.setObjectName("LoadGTButton")
@@ -160,6 +160,11 @@ class MyWindow(QtWidgets.QWidget):
         self.EDMap.setScaledContents(True)
         self.EDMap.setPixmap(QtGui.QPixmap('../ResourceImage/ED.png'))
 
+        self.EDFrameIndex_Truth = QtWidgets.QLabel(self)
+        self.EDFrameIndex_Truth.move(620, 400)
+        self.EDFrameIndex_Truth.setText("Unknown")
+        self.EDFrameIndex_Truth.adjustSize()
+
         self.ESSliceLabel = QtWidgets.QLabel(self)
         self.ESSliceLabel.setText("Slice: ")
         self.ESSliceLabel.move(700, 400)
@@ -186,6 +191,11 @@ class MyWindow(QtWidgets.QWidget):
         self.ESMap.setObjectName("ESShowMap")
         self.ESMap.setScaledContents(True)
         self.ESMap.setPixmap(QtGui.QPixmap('../ResourceImage/ES.png'))
+
+        self.ESFrameIndex_Truth = QtWidgets.QLabel(self)
+        self.ESFrameIndex_Truth.move(960, 400)
+        self.ESFrameIndex_Truth.setText("Unknown")
+        self.ESFrameIndex_Truth.adjustSize()
 
         self.SegButton = QtWidgets.QPushButton(self)
         self.SegButton.setObjectName("Segment")
@@ -217,12 +227,12 @@ class MyWindow(QtWidgets.QWidget):
 
         self.EDDetails = QtWidgets.QPushButton(self)
         self.EDDetails.setText("ED Detail")
-        self.EDDetails.setGeometry(70, 440, 95, 50)
+        self.EDDetails.setGeometry(70, 360, 95, 50)
         self.EDDetails.clicked.connect(self.EDDetail)
 
         self.ESDetails = QtWidgets.QPushButton(self)
         self.ESDetails.setText("ES Detail")
-        self.ESDetails.setGeometry(175, 440, 95, 50)
+        self.ESDetails.setGeometry(175, 360, 95, 50)
         self.ESDetails.clicked.connect(self.ESDetail)
 
         # self.ErButton = QtWidgets.QPushButton(self)
@@ -285,21 +295,25 @@ class MyWindow(QtWidgets.QWidget):
                 self.ESIndex = int(lines.replace('ES: ', '')) - 1
         self.ResultDisplay.setText("Load Successfully!" + "  ED: Frame " + str(self.EDIndex + 1) + "  ES: Frame " + str(self.ESIndex + 1))
         self.ResultDisplay.adjustSize()
+        self.EDFrameIndex_Truth.setText(str(self.EDIndex + 1))
+        self.EDFrameIndex_Truth.adjustSize()
+        self.ESFrameIndex_Truth.setText(str(self.ESIndex + 1))
+        self.ESFrameIndex_Truth.adjustSize()
         print("Load Successfully!" + "  ED: Frame " + str(self.EDIndex + 1) + "  ES: Frame " + str(self.ESIndex + 1))
 
-    def LoadEDGT(self):
-        filename, _ = QFileDialog.getOpenFileName(self, "Open EDGT File", "./", "All Files (*);;NIFTI (*.gz)")
-        self.EDGTfilename = filename
-        self.EDGTrawdata = nib.load(self.EDGTfilename)
-        self.EDGT_img_data = self.EDGTrawdata.get_fdata()
-        print("EDGT Loaded")
-
-    def LoadESGT(self):
-        filename, _ = QFileDialog.getOpenFileName(self, "Open ESGT File", "./", "All Files (*);;NIFTI (*.gz)")
-        self.ESGTfilename = filename
-        self.ESGTrawdata = nib.load(self.ESGTfilename)
-        self.ESGT_img_data = self.ESGTrawdata.get_fdata()
-        print("ESGT Loaded")
+    # def LoadEDGT(self):
+    #     filename, _ = QFileDialog.getOpenFileName(self, "Open EDGT File", "./", "All Files (*);;NIFTI (*.gz)")
+    #     self.EDGTfilename = filename
+    #     self.EDGTrawdata = nib.load(self.EDGTfilename)
+    #     self.EDGT_img_data = self.EDGTrawdata.get_fdata()
+    #     print("EDGT Loaded")
+    #
+    # def LoadESGT(self):
+    #     filename, _ = QFileDialog.getOpenFileName(self, "Open ESGT File", "./", "All Files (*);;NIFTI (*.gz)")
+    #     self.ESGTfilename = filename
+    #     self.ESGTrawdata = nib.load(self.ESGTfilename)
+    #     self.ESGT_img_data = self.ESGTrawdata.get_fdata()
+    #     print("ESGT Loaded")
 
     def FrameChanged(self):
         self.FrameIndex = self.FrameSlider.value()
@@ -359,6 +373,7 @@ class MyWindow(QtWidgets.QWidget):
     def Segment(self):
         if self.rawdata is None:
             return
+        print("Segment Processing......")
         rawdata = self.rawdata
         img_data = self.img_data
         info = rawdata.header
