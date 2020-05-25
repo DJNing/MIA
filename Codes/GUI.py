@@ -6,6 +6,7 @@ import sys
 import numpy as np
 import nibabel as nib
 from PIL import Image
+import matplotlib as plt
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 # import matplotlib.pyplot as plt
@@ -22,7 +23,7 @@ class MyWindow(QtWidgets.QWidget):
     def __init__(self):
         super(MyWindow, self).__init__()
         self.setObjectName("MainWindow")
-        self.resize(1030, 700)
+        self.resize(1100, 800)
         self.setWindowTitle("Medical Image Analysis Project Demo by Jianning Deng & Yunke Li")
         font_1 = QtGui.QFont()
         font_1.setFamily("Arial")
@@ -35,7 +36,7 @@ class MyWindow(QtWidgets.QWidget):
         self.ResultDisplay = QtWidgets.QLabel(self)
         self.ResultDisplay.setText("Welcome!")
         self.ResultDisplay.setFont(font_1)
-        self.ResultDisplay.move(70, 620)
+        self.ResultDisplay.move(70, 700)
 
         self.Title = QtWidgets.QLabel(self)
         self.Title.setText("MIA DEMO")
@@ -51,13 +52,14 @@ class MyWindow(QtWidgets.QWidget):
 
         self.logo = QtWidgets.QLabel(self)
         self.logo.setPixmap(QtGui.QPixmap('./logo.png'))
-        self.logo.move(720, 50)
+        self.logo.move(720, 110)
 
         self.LoadRawButton = QtWidgets.QPushButton(self)
         self.LoadRawButton.setGeometry(70, 200, 200, 50)
         self.LoadRawButton.setObjectName("LoadButton")
         self.LoadRawButton.setText("Load NIFTI File")
         self.LoadRawButton.clicked.connect(self.LoadFile)
+
 
         # self.LoadEDGTButton = QtWidgets.QPushButton(self)
         # self.LoadEDGTButton.setObjectName("LoadEDGTButton")
@@ -88,10 +90,10 @@ class MyWindow(QtWidgets.QWidget):
 
         self.FrameLabel = QtWidgets.QLabel(self)
         self.FrameLabel.setText("Frame: ")
-        self.FrameLabel.move(350, 270)
+        self.FrameLabel.move(350, 50)
         self.FrameLabel.adjustSize()
 
-        self.FrameSlider.setGeometry(410, 270, 170, 30)
+        self.FrameSlider.setGeometry(410, 50, 170, 30)
         self.FrameSlider.setMinimum(0)
         self.FrameSlider.setMaximum(29)
         self.FrameSlider.setValue(0)
@@ -102,17 +104,17 @@ class MyWindow(QtWidgets.QWidget):
         self.FrameDisplay = QtWidgets.QLabel(self)
         self.FrameDisplay.setText(str(self.FrameSlider.value() + 1))
         self.FrameDisplay.setObjectName("FrameDisplay")
-        self.FrameDisplay.move(590, 270)
+        self.FrameDisplay.move(590, 50)
 
         self.SliceLabel = QtWidgets.QLabel(self)
         self.SliceLabel.setText("Slice: ")
-        self.SliceLabel.move(350, 300)
+        self.SliceLabel.move(350, 80)
         self.SliceLabel.adjustSize()
 
         self.SliceSlider = QtWidgets.QSlider(Qt.Horizontal, self)
         self.SliceSlider.setObjectName("SliceSlider")
         # self.SliceSlider.move(350, 300)
-        self.SliceSlider.setGeometry(410, 300, 170, 30)
+        self.SliceSlider.setGeometry(410, 80, 170, 30)
         self.SliceSlider.setMinimum(0)
         self.SliceSlider.setMaximum(9)
         self.SliceSlider.setValue(0)
@@ -123,23 +125,23 @@ class MyWindow(QtWidgets.QWidget):
         self.SliceDisplay = QtWidgets.QLabel(self)
         self.SliceDisplay.setText(str(self.SliceSlider.value() + 1))
         self.SliceDisplay.setObjectName("SliceDisplay")
-        self.SliceDisplay.move(590, 300)
+        self.SliceDisplay.move(590, 80)
 
         self.ShowMap = QtWidgets.QLabel(self)
-        self.ShowMap.move(350, 50)
+        self.ShowMap.move(350, 110)
         self.ShowMap.setObjectName("ShowMap")
         self.ShowMap.setScaledContents(True)
         self.ShowMap.setPixmap(QtGui.QPixmap('./image.png'))
 
         self.EDSliceLabel = QtWidgets.QLabel(self)
         self.EDSliceLabel.setText("Slice: ")
-        self.EDSliceLabel.move(350, 570)
+        self.EDSliceLabel.move(350, 400)
         self.EDSliceLabel.adjustSize()
 
         self.EDSliceSlider = QtWidgets.QSlider(Qt.Horizontal, self)
         self.EDSliceSlider.setObjectName("EDSliceSlider")
         # self.EDSliceSlider.move(350, 570)
-        self.EDSliceSlider.setGeometry(410, 570, 170, 30)
+        self.EDSliceSlider.setGeometry(410, 400, 170, 30)
         self.EDSliceSlider.setMinimum(0)
         self.EDSliceSlider.setMaximum(9)
         self.EDSliceSlider.setValue(0)
@@ -150,23 +152,23 @@ class MyWindow(QtWidgets.QWidget):
         self.EDSliceDisplay = QtWidgets.QLabel(self)
         self.EDSliceDisplay.setText(str(self.EDSliceSlider.value() + 1))
         self.EDSliceDisplay.setObjectName("EDSlice")
-        self.EDSliceDisplay.move(590, 570)
+        self.EDSliceDisplay.move(590, 400)
 
         self.EDMap = QtWidgets.QLabel(self)
-        self.EDMap.move(350, 350)
+        self.EDMap.move(350, 430)
         self.EDMap.setObjectName("EDShowMap")
         self.EDMap.setScaledContents(True)
         self.EDMap.setPixmap(QtGui.QPixmap('./ED.png'))
 
         self.ESSliceLabel = QtWidgets.QLabel(self)
         self.ESSliceLabel.setText("Slice: ")
-        self.ESSliceLabel.move(700, 570)
+        self.ESSliceLabel.move(700, 400)
         self.ESSliceLabel.adjustSize()
 
         self.ESSliceSlider = QtWidgets.QSlider(Qt.Horizontal, self)
         self.ESSliceSlider.setObjectName("ESSliceSlider")
         # self.ESSliceSlider.move(700, 570)
-        self.ESSliceSlider.setGeometry(760, 570, 170, 30)
+        self.ESSliceSlider.setGeometry(760, 400, 170, 30)
         self.ESSliceSlider.setMinimum(0)
         self.ESSliceSlider.setMaximum(9)
         self.ESSliceSlider.setValue(0)
@@ -177,10 +179,10 @@ class MyWindow(QtWidgets.QWidget):
         self.ESSliceDisplay = QtWidgets.QLabel(self)
         self.ESSliceDisplay.setText(str(self.ESSliceSlider.value() + 1))
         self.ESSliceDisplay.setObjectName("ESSlice")
-        self.ESSliceDisplay.move(940, 570)
+        self.ESSliceDisplay.move(940, 400)
 
         self.ESMap = QtWidgets.QLabel(self)
-        self.ESMap.move(700, 350)
+        self.ESMap.move(700, 430)
         self.ESMap.setObjectName("ESShowMap")
         self.ESMap.setScaledContents(True)
         self.ESMap.setPixmap(QtGui.QPixmap('./ES.png'))
@@ -193,25 +195,35 @@ class MyWindow(QtWidgets.QWidget):
 
         self.EDVLabel = QtWidgets.QLabel(self)
         self.EDVLabel.setText("ED Volume(mm^3): ")
-        self.EDVLabel.move(70, 450)
+        self.EDVLabel.move(70, 520)
         self.EDVLabel.setFont(font_1)
         self.EDVLabel.adjustSize()
 
         self.EDVShow = QtWidgets.QLineEdit(self)
         self.EDVShow.setText("0")
         self.EDVShow.setFont(font_1)
-        self.EDVShow.setGeometry(70, 480, 200, 30)
+        self.EDVShow.setGeometry(70, 550, 200, 30)
 
         self.ESVLabel = QtWidgets.QLabel(self)
         self.ESVLabel.setText("ES Volume(mm^3): ")
-        self.ESVLabel.move(70, 530)
+        self.ESVLabel.move(70, 600)
         self.ESVLabel.setFont(font_1)
         self.ESVLabel.adjustSize()
 
         self.ESVShow = QtWidgets.QLineEdit(self)
         self.ESVShow.setText("0")
         self.ESVShow.setFont(font_1)
-        self.ESVShow.setGeometry(70, 560, 200, 30)
+        self.ESVShow.setGeometry(70, 630, 200, 30)
+
+        self.EDDetails = QtWidgets.QPushButton(self)
+        self.EDDetails.setText("ED Detail")
+        self.EDDetails.setGeometry(70, 440, 95, 50)
+        self.EDDetails.clicked.connect(self.EDDetail)
+
+        self.ESDetails = QtWidgets.QPushButton(self)
+        self.ESDetails.setText("ES Detail")
+        self.ESDetails.setGeometry(175, 440, 95, 50)
+        self.ESDetails.clicked.connect(self.ESDetail)
 
         # self.ErButton = QtWidgets.QPushButton(self)
         # self.ErButton.setObjectName("Error")
@@ -249,6 +261,7 @@ class MyWindow(QtWidgets.QWidget):
         self.SegmentResult_ES = None
         self.maxslice = None
         self.maxframe = None
+        self.xRadius = None
 
     def LoadFile(self):
         filename, _ = QFileDialog.getOpenFileName(self, "Open Nifti File", "./", "All Files (*);;NIFTI (*.gz)")
@@ -270,10 +283,9 @@ class MyWindow(QtWidgets.QWidget):
                 self.EDIndex = int(line.replace('ED: ', '')) - 1
             if "ES" in line:
                 self.ESIndex = int(line.replace('ES: ', '')) - 1
-        self.ResultDisplay.setText("Load Successfully!")
+        self.ResultDisplay.setText("Load Successfully!" + "  ED: Frame " + str(self.EDIndex + 1) + "  ES: Frame " + str(self.ESIndex + 1))
         self.ResultDisplay.adjustSize()
-        print("Load Successfully!")
-
+        print("Load Successfully!" + "  ED: Frame " + str(self.EDIndex + 1) + "  ES: Frame " + str(self.ESIndex + 1))
 
     def LoadEDGT(self):
         filename, _ = QFileDialog.getOpenFileName(self, "Open EDGT File", "./", "All Files (*);;NIFTI (*.gz)")
@@ -295,7 +307,10 @@ class MyWindow(QtWidgets.QWidget):
             return
         i = self.img_data[:, :, self.SliceIndex, self.FrameIndex]
         self.i = i
-        img_pil = Image.fromarray(np.uint8(i))
+        img_pil = Image.fromarray(np.uint8(self.i))
+        # size = [img_pil.size[0], img_pil.size[1]]
+        # size = [x * 2 for x in size]
+        # img_pil = img_pil.resize((size))
         self.qPix = img_pil.toqpixmap()
         self.ShowMap.setPixmap(self.qPix)
         self.ShowMap.adjustSize()
@@ -350,6 +365,7 @@ class MyWindow(QtWidgets.QWidget):
         raw_info = info.structarr
         xspacing = raw_info['pixdim'][1]
         xRadius = int(110 / xspacing / 2)
+        self.xRadius = xRadius
         [r, c, sl, _] = img_data.shape
         segment_ED = np.zeros([r, c, sl])
         segment_ES = np.zeros([r, c, sl])
@@ -361,18 +377,18 @@ class MyWindow(QtWidgets.QWidget):
         ES_outlier_display = ""
         for s_ED in range(sl):
             img_ED = img_data[:, :, s_ED, self.EDIndex]
-            chull, _, _, _, _, _, _, _ = segLV(img_ED, xRadius)
+            chull, _, _, x, y, roi, cx, cy = segLV(img_ED, xRadius)
             segment_ED[:, :, s_ED] = chull
             if chull is None:
                 segment_ED[:, :, s_ED] = np.zeros([r, c])
-                ED_outlier = ED_outlier + str(s_ED) + " "
+                ED_outlier = ED_outlier + str(s_ED + 1) + " "
         for s_ES in range(sl):
             img_ES = img_data[:, :, s_ES, self.ESIndex]
-            chull, _, _, _, _, _, _, _ = segLV(img_ES, xRadius)
+            chull, _, _, x, y, roi, cx, cy = segLV(img_ES, xRadius)
             segment_ES[:, :, s_ES] = chull
             if chull is None:
                 segment_ES[:, :, s_ES] = np.zeros([r, c])
-                ES_outlier = ES_outlier + str(s_ES) + " "
+                ES_outlier = ES_outlier + str(s_ES + 1) + " "
         self.SegmentResult_ED = segment_ED * 255
         self.SegmentResult_ES = segment_ES * 255
         print("Segment Done!")
@@ -410,11 +426,49 @@ class MyWindow(QtWidgets.QWidget):
         SegmentResult_ES_Count = self.SegmentResult_ES / 255
         Voxel_ES = SegmentResult_ES_Count.sum()
         Volume_ES = Voxel_Volume * Voxel_ES / (s_ES - count_outlier_ES) * s_ES
-        self.EDVShow.setText(str(Volume_ED))
-        self.ESVShow.setText(str(Volume_ES))
+        self.EDVShow.setText(str(round(Volume_ED, 2)))
+        self.ESVShow.setText(str(round(Volume_ES, 2)))
         # print(Volume_ED)
         # print(Volume_ES)
         print("Volume Computed!")
+
+    def EDDetail(self):
+        if self.SegmentResult_ED is None:
+            return
+        index = self.EDSliceIndex
+        img_ED_index = self.img_data[:, :, index, self.EDIndex]
+        chull, _, _, x, y, roi, cx, cy = segLV(img_ED_index, self.xRadius)
+        if chull is None:
+            return
+        xr = self.xRadius
+        bound_x = [cx - xr, cx + xr, cx + xr, cx - xr, cx - xr]
+        bound_y = [cy - xr, cy - xr, cy + xr, cy + xr, cy - xr]
+        plt.subplot(1, 2, 1)
+        plt.imshow(img_ED_index, cmap="gray")
+        plt.plot(bound_y, bound_x, 'r-', linewidth=4)
+        plt.subplot(1, 2, 2)
+        plt.imshow(roi, cmap="gray")
+        plt.plot(x, y, 'r-', linewidth=4)
+        plt.show()
+
+    def ESDetail(self):
+        if self.SegmentResult_ES is None:
+            return
+        index = self.ESSliceIndex
+        img_ES_index = self.img_data[:, :, index, self.ESIndex]
+        chull, _, _, x, y, roi, cx, cy = segLV(img_ES_index, self.xRadius)
+        if chull is None:
+            return
+        xr = self.xRadius
+        bound_x = [cx - xr, cx + xr, cx + xr, cx - xr, cx - xr]
+        bound_y = [cy - xr, cy - xr, cy + xr, cy + xr, cy - xr]
+        plt.subplot(1, 2, 1)
+        plt.imshow(img_ES_index, cmap="gray")
+        plt.plot(bound_y, bound_x, 'r-', linewidth=4)
+        plt.subplot(1, 2, 2)
+        plt.imshow(roi, cmap="gray")
+        plt.plot(x, y, 'r-', linewidth=4)
+        plt.show()
 
 
 if __name__ == "__main__":
