@@ -155,7 +155,7 @@ def segLV(imgRaw, width):
         # check average pixel intensity for nonOverlap
         tempRoi = roi * nonOverlap
         avgI = np.sum(tempRoi) / nonOverlapArea
-        if avgI > TMuscel:  # usually when canny fails
+        if avgI > (TMuscel+TBlood)/2:  # usually when canny fails
             newMask = cannyMask * chull
             tempRoi = roi * newMask
             tempRoi[tempRoi == 0] = 255
